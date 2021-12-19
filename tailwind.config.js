@@ -10,6 +10,7 @@ module.exports = {
         "badge-bg": "#2A2E35",
         "gr-start": "#FA8142",
         "gr-end": "#FF4088",
+        "gr-end-light": "#fc629d",
       },
     },
   },
