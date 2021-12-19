@@ -1,4 +1,14 @@
+import React from "react";
+import { useRouter } from "next/router";
+
 const Form = () => {
+  const router = useRouter();
+
+  const formSubmitHandler = (e) => {
+    e.preventDefault();
+    router.push("submitted");
+  };
+
   return (
     <form className="space-y-10 accent-gr-end">
       <div>
@@ -44,7 +54,10 @@ const Form = () => {
           className="ml-6 text-white text-sm leading-6 file:bg-gr-end file:text-white file:font-semibold file:border-none file:px-4 file:py-2 file:rounded-full file:mr-6 hover:file:bg-gr-end-light file:cursor-pointer"
         />
       </div>
-      <button className="px-4 py-2 bg-gr-end hover:bg-gr-end-light rounded-full ml-44 font-semibold">
+      <button
+        onClick={formSubmitHandler}
+        className="px-4 py-2 bg-gr-end hover:bg-gr-end-light rounded-full ml-44 font-semibold"
+      >
         Secure NFT
       </button>
     </form>
