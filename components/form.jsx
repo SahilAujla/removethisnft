@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { useRouter } from "next/router";
+import { storage } from "../storage/firebase";
 
 const Form = () => {
   const router = useRouter();
 
+  const [image, setImage] = useState("");
+
+  const upload = () => {
+    if (image == null) return;
+    storage.ref(`/images/${image.name}`).put(image);
+  };
+
+  const nftInputRef = useRef();
+  const termsInputRef = useRef();
+  const creatorInputRef = useRef();
+  const imageInputRef = useRef();
+
   const formSubmitHandler = (e) => {
     e.preventDefault();
+    const nftName = nftInputRef.current.value;
+    const terms = termsInputRef.current.value;
+    const creatorName = creatorInputRef.current.value;
+
+    upload();
     router.push("submitted");
   };
 
@@ -16,6 +34,7 @@ const Form = () => {
           NFT NAME
         </label>
         <input
+          ref={nftInputRef}
           className="w-full px-3 py-2 rounded-lg text-black focus:outline-none"
           id="nftName"
           type="text"
@@ -23,13 +42,14 @@ const Form = () => {
         />
       </div>
       <div>
-        <label className="block mb-2" htmlFor="ownerName">
-          OWNER{`'`}S NAME
+        <label className="block mb-2" htmlFor="terms">
+          TERMS RELATED TO YOUR NFT
         </label>
-        <input
+        <textarea
+          ref={termsInputRef}
           className="w-full px-3 py-2 rounded-lg text-black focus:outline-none"
-          id="ownerName"
-          type="text"
+          id="terms"
+          placeholder="seprate the terms with a space"
           required
         />
       </div>
@@ -38,6 +58,7 @@ const Form = () => {
           CREATOR{`'`}S NAME
         </label>
         <input
+          ref={creatorInputRef}
           className="w-full px-3 py-2 rounded-lg text-black focus:outline-none"
           type="text"
           id="creatorName"
@@ -49,6 +70,10 @@ const Form = () => {
           UPLOAD NFT IMAGE
         </label>
         <input
+          onChange={(e) => {
+            setImage(e.target.files[0]);
+          }}
+          ref={imageInputRef}
           id="file"
           type="file"
           className="ml-6 text-white text-sm leading-6 file:bg-gr-end file:text-white file:font-semibold file:border-none file:px-4 file:py-2 file:rounded-full file:mr-6 hover:file:bg-gr-end-light file:cursor-pointer"
